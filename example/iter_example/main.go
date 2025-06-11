@@ -58,8 +58,10 @@ func main() {
 	fmt.Println("\nExample 3: Using helper functions")
 	fmt.Println("---------------------------------")
 	iter = client.NewQuery().
-		SearchQuery("transformer").
-		Category(arxiv.CategoryCSAI).
+		SearchQuery("misinformation").
+		AND().
+		SearchQuery("agent").
+		Category(arxiv.CategoryCSMA).
 		Iterator(ctx)
 	// Collect first 5 papers
 	fmt.Println("First 5 papers using TakeSeq:")
@@ -70,9 +72,9 @@ func main() {
 	fmt.Println("total fetched:", iter.TotalFetched(), "total count:", iter.TotalCount())
 	// Reset and filter papers
 	iter.Reset()
-	fmt.Println("\nFiltered papers (containing 'deep' in title):")
+	fmt.Println("\nFiltered papers (containing 'debate' in title):")
 	filtered := arxiv.CollectSeq(arxiv.FilterSeq(iter.All(), func(paper *arxiv.Paper) bool {
-		return strings.Contains(strings.ToLower(paper.Title), "deep")
+		return strings.Contains(strings.ToLower(paper.Title), "debate")
 	}))
 	fmt.Println("total fetched:", iter.TotalFetched(), "total count:", iter.TotalCount())
 
